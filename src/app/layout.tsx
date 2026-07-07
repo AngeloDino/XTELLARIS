@@ -34,7 +34,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es" suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <div className="sky" aria-hidden="true" />
         {children}
       </body>
     </html>

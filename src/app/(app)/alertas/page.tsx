@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { requireSession } from "@/server/auth";
 import { getRestockSuggestions } from "@/server/services/products";
 import { formatQty } from "@/lib/format";
+import { CheckCircleIcon, TruckIcon, UsersIcon } from "@/components/Icons";
 
 export const metadata: Metadata = { title: "Alertas — Xtellaris" };
 export const dynamic = "force-dynamic";
@@ -16,8 +17,8 @@ export default async function AlertsPage() {
       <h1 className="text-2xl font-bold">Alertas de reabastecimiento</h1>
 
       {suggestions.length === 0 ? (
-        <div className="card py-12 text-center">
-          <p className="text-5xl">👍</p>
+        <div className="card flex flex-col items-center py-12 text-center">
+          <CheckCircleIcon size={56} className="text-success" />
           <p className="mt-3 text-xl font-bold text-success">Todo en orden</p>
           <p className="mt-1 text-muted">
             Ningún producto está por debajo de su stock mínimo.
@@ -38,8 +39,8 @@ export default async function AlertsPage() {
                       <p className="truncate text-lg font-bold">{product.name}</p>
                       <p className="font-semibold text-danger">
                         {product.stock <= 0
-                          ? "⛔ Agotado"
-                          : `⚠️ Quedan ${formatQty(product.stock)} ${product.unit}`}
+                          ? "Agotado"
+                          : `Quedan ${formatQty(product.stock)} ${product.unit}`}
                         {" · "}mínimo {formatQty(product.minStock)}
                       </p>
                       {product.supplierName && (
@@ -62,10 +63,12 @@ export default async function AlertsPage() {
           </ul>
           <div className="grid grid-cols-2 gap-3">
             <Link href="/proveedores" className="btn-secondary">
-              🤝 Ver proveedores
+              <UsersIcon size={20} />
+              Ver proveedores
             </Link>
             <Link href="/entradas" className="btn-primary">
-              🚚 Registrar llegada
+              <TruckIcon size={20} />
+              Registrar llegada
             </Link>
           </div>
         </>

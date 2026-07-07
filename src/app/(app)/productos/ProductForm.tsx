@@ -11,6 +11,7 @@ import {
   updateProductAction,
 } from "@/app/actions/products";
 import { MoneyInput } from "@/components/MoneyInput";
+import { PackageIcon } from "@/components/Icons";
 
 /**
  * Comprime la foto en el navegador a máx. 256px JPEG y la devuelve como
@@ -272,8 +273,8 @@ export function ProductForm({ product, categories, suppliers, units }: Props) {
                 unoptimized
               />
             ) : (
-              <span className="flex h-16 w-16 items-center justify-center rounded-xl bg-brand/10 text-2xl">
-                📦
+              <span className="flex h-16 w-16 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                <PackageIcon size={28} />
               </span>
             )}
             <label className="btn-secondary cursor-pointer">

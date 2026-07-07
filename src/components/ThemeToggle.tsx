@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { MoonIcon, SunIcon } from "./Icons";
 
 /** Botón sol/luna: alterna el tema y lo guarda en el dispositivo. */
 export function ThemeToggle() {
@@ -23,11 +24,11 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-line bg-surface text-xl"
+      className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-line bg-surface text-ink transition-colors hover:border-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
       aria-label={dark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
       title={dark ? "Modo claro" : "Modo oscuro"}
     >
-      {dark ? "☀️" : "🌙"}
+      {dark ? <SunIcon size={22} /> : <MoonIcon size={22} />}
     </button>
   );
 }

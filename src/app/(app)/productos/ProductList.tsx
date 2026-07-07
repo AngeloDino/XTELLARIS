@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { CategoryDTO, ProductDTO } from "@/lib/types";
 import { formatCOP, formatQty } from "@/lib/format";
+import { PackageIcon, SearchIcon } from "@/components/Icons";
 
 /** Búsqueda sin tildes ni mayúsculas: "panela" encuentra "Panelá". */
 function normalize(text: string): string {
@@ -39,14 +40,20 @@ export function ProductList({
         </Link>
       </div>
 
-      <input
-        type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="🔍 Buscar por nombre o código…"
-        className="field"
-        autoComplete="off"
-      />
+      <div className="relative">
+        <SearchIcon
+          size={20}
+          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted"
+        />
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Buscar por nombre o código…"
+          className="field pl-12"
+          autoComplete="off"
+        />
+      </div>
 
       {categories.length > 0 && (
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
@@ -111,8 +118,8 @@ export function ProductList({
                       unoptimized
                     />
                   ) : (
-                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-2xl">
-                      📦
+                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                      <PackageIcon size={26} />
                     </span>
                   )}
                   <div className="min-w-0 flex-1">
@@ -121,7 +128,7 @@ export function ProductList({
                       {p.categoryName ?? "Sin categoría"}
                     </p>
                     <p className={`text-sm font-semibold ${low ? "text-danger" : "text-muted"}`}>
-                      {low ? "⚠️ " : ""}Quedan {formatQty(p.stock)} {p.unit}
+                      {low ? "Poco stock: quedan" : "Quedan"} {formatQty(p.stock)} {p.unit}
                     </p>
                   </div>
                   <span className="text-lg font-bold">{formatCOP(p.salePrice)}</span>

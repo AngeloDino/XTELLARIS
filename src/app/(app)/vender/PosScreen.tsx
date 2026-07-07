@@ -6,6 +6,7 @@ import type { ProductDTO } from "@/lib/types";
 import { formatCOP, formatQty } from "@/lib/format";
 import { createSaleAction } from "@/app/actions/sales";
 import { MoneyInput } from "@/components/MoneyInput";
+import { CartIcon, CheckCircleIcon, SearchIcon } from "@/components/Icons";
 
 interface CartItem {
   product: ProductDTO;
@@ -96,7 +97,7 @@ export function PosScreen({ products }: { products: ProductDTO[] }) {
   if (lastSale) {
     return (
       <div className="flex flex-col items-center gap-6 py-10 text-center">
-        <span className="text-6xl">✅</span>
+        <CheckCircleIcon size={72} className="text-success" />
         <h1 className="text-3xl font-bold text-success">¡Venta registrada!</h1>
         <div className="card w-full max-w-sm">
           <p className="text-lg text-muted">Total cobrado</p>
@@ -124,13 +125,17 @@ export function PosScreen({ products }: { products: ProductDTO[] }) {
       <h1 className="text-2xl font-bold">Venta rápida</h1>
 
       <div className="relative">
+        <SearchIcon
+          size={20}
+          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted"
+        />
         <input
           ref={searchRef}
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="🔍 Busque el producto…"
-          className="field text-lg"
+          placeholder="Busque el producto…"
+          className="field pl-12 text-lg"
           autoComplete="off"
         />
         {results.length > 0 && (
@@ -161,9 +166,9 @@ export function PosScreen({ products }: { products: ProductDTO[] }) {
       </div>
 
       {cart.length === 0 ? (
-        <div className="card py-10 text-center text-muted">
-          <p className="text-4xl">🛒</p>
-          <p className="mt-2 text-lg">Busque un producto y tóquelo para agregarlo.</p>
+        <div className="card flex flex-col items-center py-10 text-center text-muted">
+          <CartIcon size={44} className="text-muted/60" />
+          <p className="mt-3 text-lg">Busque un producto y tóquelo para agregarlo.</p>
         </div>
       ) : (
         <ul className="flex flex-col gap-2">

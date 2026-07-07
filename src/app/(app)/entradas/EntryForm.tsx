@@ -6,6 +6,7 @@ import type { ProductDTO } from "@/lib/types";
 import { formatCOP, formatQty } from "@/lib/format";
 import { createEntryAction } from "@/app/actions/entries";
 import { MoneyInput } from "@/components/MoneyInput";
+import { PlusIcon, SearchIcon } from "@/components/Icons";
 
 interface EntryItem {
   product: ProductDTO;
@@ -110,12 +111,16 @@ export function EntryForm({
       </div>
 
       <div className="relative">
+        <SearchIcon
+          size={20}
+          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted"
+        />
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="🔍 Busque el producto que llegó…"
-          className="field"
+          placeholder="Busque el producto que llegó…"
+          className="field pl-12"
           autoComplete="off"
         />
         {results.length > 0 && (
@@ -133,7 +138,7 @@ export function EntryForm({
                       Hay {formatQty(p.stock)} {p.unit} · último costo {formatCOP(p.purchasePrice)}
                     </p>
                   </div>
-                  <span className="text-xl">＋</span>
+                  <PlusIcon size={22} className="shrink-0 text-brand" />
                 </button>
               </li>
             ))}

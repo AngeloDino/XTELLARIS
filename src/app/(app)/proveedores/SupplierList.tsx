@@ -9,6 +9,7 @@ import {
   deleteSupplierAction,
   updateSupplierAction,
 } from "@/app/actions/suppliers";
+import { MessageIcon } from "@/components/Icons";
 
 export function SupplierList({ suppliers }: { suppliers: SupplierDTO[] }) {
   const router = useRouter();
@@ -169,7 +170,8 @@ export function SupplierList({ suppliers }: { suppliers: SupplierDTO[] }) {
                     rel="noopener noreferrer"
                     className="btn inline-flex bg-[#25D366] text-white active:opacity-85"
                   >
-                    💬 Escribir por WhatsApp
+                    <MessageIcon size={20} />
+                    Escribir por WhatsApp
                   </a>
                 )}
               </li>

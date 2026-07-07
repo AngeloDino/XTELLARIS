@@ -104,7 +104,7 @@ export function LoginForm() {
         disabled={loading !== null}
         className="btn-secondary text-lg"
       >
-        {loading === "demo" ? "Preparando demo…" : "✨ Probar demo"}
+        {loading === "demo" ? "Preparando demo…" : "Probar demo"}
       </button>
     </div>
   );

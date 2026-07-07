@@ -3,6 +3,13 @@ import type { Metadata } from "next";
 import { requireSession } from "@/server/auth";
 import { getDashboardData } from "@/server/services/dashboard";
 import { formatCOP, formatQty } from "@/lib/format";
+import {
+  AlertIcon,
+  CartIcon,
+  ChartIcon,
+  ChevronRightIcon,
+  TruckIcon,
+} from "@/components/Icons";
 
 export const metadata: Metadata = { title: "Inicio — Xtellaris" };
 export const dynamic = "force-dynamic";
@@ -20,7 +27,7 @@ export default async function DashboardPage() {
           href="/alertas"
           className="card flex items-center gap-4 border-2 border-danger bg-danger/10"
         >
-          <span className="text-4xl">⚠️</span>
+          <AlertIcon size={36} className="shrink-0 text-danger" />
           <div className="flex-1">
             <p className="text-lg font-bold text-danger">
               {data.lowStockCount === 1
@@ -29,7 +36,7 @@ export default async function DashboardPage() {
             </p>
             <p className="text-sm text-muted">Toque aquí para ver qué debe pedir</p>
           </div>
-          <span className="text-2xl text-danger">›</span>
+          <ChevronRightIcon size={26} className="shrink-0 text-danger" />
         </Link>
       )}
 
@@ -53,7 +60,8 @@ export default async function DashboardPage() {
       </div>
 
       <Link href="/vender" className="btn-primary py-5 text-2xl">
-        🛒 Vender ahora
+        <CartIcon size={28} />
+        Vender ahora
       </Link>
 
       <section className="card">
@@ -85,10 +93,12 @@ export default async function DashboardPage() {
 
       <div className="grid grid-cols-2 gap-3">
         <Link href="/entradas" className="btn-secondary py-4">
-          🚚 Llegó mercancía
+          <TruckIcon size={22} />
+          Llegó mercancía
         </Link>
         <Link href="/reportes" className="btn-secondary py-4">
-          📊 Ver reportes
+          <ChartIcon size={22} />
+          Ver reportes
         </Link>
       </div>
     </div>

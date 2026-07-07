@@ -4,8 +4,7 @@
 
 /* ==========================================================================
    Tema Xtellaris
-   Claro: fondo blanco, texto negro, sol difuso al fondo.
-   Oscuro: fondo negro con estrellas y luna.
+   Claro: fondo blanco, texto negro. Oscuro: fondo casi negro, texto claro.
    Los colores viven en variables RGB para usarlos con opacidad en Tailwind.
    ========================================================================== */
 
@@ -20,6 +19,7 @@
   --c-danger: 220 38 38;
   --c-success: 22 130 74;
   --c-warning: 180 96 6;
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.06), 0 1px 3px rgb(16 24 40 / 0.1);
 }
 
 .theme-dark {
@@ -33,6 +33,7 @@
   --c-danger: 248 113 113;
   --c-success: 74 222 128;
   --c-warning: 251 191 36;
+  --shadow-card: none;
 }
 
 html {
@@ -49,84 +50,6 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   Cielo de fondo: sol (modo claro) / luna y estrellas (modo oscuro).
-   Es decorativo, fijo y sin eventos; muy sutil para no afectar legibilidad.
-   -------------------------------------------------------------------------- */
-
-.sky {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-/* Sol: resplandor cálido en la esquina superior derecha. */
-.sky::before {
-  content: "";
-  position: absolute;
-  top: -140px;
-  right: -140px;
-  width: 480px;
-  height: 480px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(253, 216, 106, 0.65) 0%,
-    rgba(253, 216, 106, 0.28) 32%,
-    rgba(255, 237, 178, 0.12) 55%,
-    transparent 72%
-  );
-}
-
-.theme-dark .sky::before {
-  /* Luna: disco suave con halo frío. */
-  top: 48px;
-  right: 32px;
-  width: 110px;
-  height: 110px;
-  background: radial-gradient(
-      circle at 38% 38%,
-      rgba(226, 232, 245, 0.95) 0%,
-      rgba(203, 213, 230, 0.85) 55%,
-      rgba(160, 172, 195, 0.7) 100%
-    );
-  box-shadow: 0 0 60px 18px rgba(200, 215, 245, 0.18);
-}
-
-/* Estrellas: tres capas de puntos generadas con gradientes radiales. */
-.theme-dark .sky::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255, 255, 255, 0.9), transparent 60%),
-    radial-gradient(1px 1px at 28% 8%, rgba(255, 255, 255, 0.7), transparent 60%),
-    radial-gradient(2px 2px at 41% 32%, rgba(255, 255, 255, 0.8), transparent 60%),
-    radial-gradient(1px 1px at 55% 15%, rgba(255, 255, 255, 0.6), transparent 60%),
-    radial-gradient(1.5px 1.5px at 67% 41%, rgba(255, 255, 255, 0.75), transparent 60%),
-    radial-gradient(1px 1px at 78% 27%, rgba(255, 255, 255, 0.65), transparent 60%),
-    radial-gradient(2px 2px at 88% 55%, rgba(255, 255, 255, 0.5), transparent 60%),
-    radial-gradient(1px 1px at 8% 62%, rgba(255, 255, 255, 0.6), transparent 60%),
-    radial-gradient(1.5px 1.5px at 22% 78%, rgba(255, 255, 255, 0.55), transparent 60%),
-    radial-gradient(1px 1px at 47% 68%, rgba(255, 255, 255, 0.6), transparent 60%),
-    radial-gradient(1.5px 1.5px at 62% 85%, rgba(255, 255, 255, 0.5), transparent 60%),
-    radial-gradient(1px 1px at 83% 74%, rgba(255, 255, 255, 0.6), transparent 60%),
-    radial-gradient(1px 1px at 35% 50%, rgba(255, 255, 255, 0.45), transparent 60%),
-    radial-gradient(1.5px 1.5px at 94% 12%, rgba(255, 255, 255, 0.7), transparent 60%);
-  animation: twinkle 5s ease-in-out infinite alternate;
-}
-
-@keyframes twinkle {
-  from { opacity: 0.7; }
-  to { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .theme-dark .sky::after { animation: none; }
-}
-
-/* --------------------------------------------------------------------------
    Componentes base: botones y campos grandes, pensados para dedos y para
    usuarios de 40-60 años (mín. 48px de alto, texto grande).
    -------------------------------------------------------------------------- */
@@ -134,25 +57,31 @@ body {
 @layer components {
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold
-      min-h-[48px] px-5 text-base select-none transition-colors
+      min-h-[48px] px-5 text-base select-none
+      transition-[background-color,border-color,opacity,transform] duration-150
+      active:scale-[0.98]
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
+      focus-visible:ring-offset-2 focus-visible:ring-offset-bg
       disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-primary {
-    @apply btn bg-brand text-brand-ink active:opacity-85;
+    @apply btn bg-brand text-brand-ink hover:opacity-90 active:opacity-85;
   }
   .btn-secondary {
-    @apply btn border-2 border-line bg-surface text-ink active:bg-line/60;
+    @apply btn border-2 border-line bg-surface text-ink hover:border-muted/50 active:bg-line/60;
   }
   .btn-danger {
-    @apply btn bg-danger text-white active:opacity-85;
+    @apply btn bg-danger text-white hover:opacity-90 active:opacity-85;
   }
   .field {
     @apply w-full rounded-xl border-2 border-line bg-bg text-ink
       min-h-[48px] px-4 text-base placeholder:text-muted
-      focus:outline-none focus:border-brand;
+      transition-colors duration-150
+      focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20;
   }
   .card {
-    @apply rounded-2xl border border-line bg-surface/90 p-4;
+    @apply rounded-2xl border border-line bg-surface p-4;
+    box-shadow: var(--shadow-card);
   }
   .label {
     @apply block text-sm font-semibold text-muted mb-1;
@@ -162,7 +91,6 @@ body {
 /* Impresión de reportes: solo el contenido, sin navegación ni fondos. */
 @media print {
   .no-print { display: none !important; }
-  .sky { display: none !important; }
   body { background: white; color: black; }
-  .card { border: 1px solid #ccc; background: white; }
+  .card { border: 1px solid #ccc; background: white; box-shadow: none; }
 }
